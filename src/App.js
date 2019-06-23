@@ -95,7 +95,7 @@ class App extends React.Component {
     labels: this.state.timestamp,
     datasets: [
       {
-        label: 'Accumulative Users = '+this.state.users[this.state.users.length-1],
+        label: 'Accumulative Users =  '+this.state.users[this.state.users.length-1],
         fill: false,
         lineTension: 0.1,
         backgroundColor: 'orange',
