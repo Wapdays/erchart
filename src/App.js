@@ -16,7 +16,10 @@ class App extends React.Component {
       time: [],
       users: [],
       fees: [],
-      timestamp: []
+      timestamp: [],
+      transarr: [],
+      accgasarray: [],
+      cumgasprices: []
     };
   }
   componentDidMount() {
@@ -28,9 +31,14 @@ class App extends React.Component {
         var user = []
         var timestamp = []
         var fee = []
+        var transarr = Array.apply(null, {length: acctrans}).map(Number.call, Number)
         for (var i = 0; i < res.data.result.length; i++) {
            user.push(res.data.result[i].from);
         }
+        var accgasarray = []
+        for (var i = 0; i < res.data.result.length; i++) {
+         accgasarray.push(res.data.result[i].cumulativeGasUsed);
+      }
         for (var i = 0; i < res.data.result.length; i++) {
           timestamp.push(moment.unix(res.data.result[i].timeStamp).utc().format('dddd, MMMM Do'));
        }
@@ -51,6 +59,13 @@ class App extends React.Component {
           users.push(Array.from(new Set(slicedArr)).length)
         }
         // const users = Array.from(new Set(user)).length;
+        var gasprices = []
+        
+        for(var i = 0; i < user.length; i++){
+          gasprices.push(parseInt(res.data.result[i].gasPrice))
+        }
+        var cumgasprices = []
+        gasprices.reduce(function(a,b,i) { return cumgasprices[i] = a+b; },0);
         
         const time =  moment.unix(res.data.result[res.data.result.length - 1].timeStamp).utc().format('dddd, MMMM Do, YYYY h:mm:ss A')
         
@@ -61,6 +76,9 @@ class App extends React.Component {
         this.setState({ users: users })
         this.setState({ fees: fees })
         this.setState({ timestamp: timestamp })
+        this.setState({ transarr: transarr })
+        this.setState({ accgasarray: accgasarray })
+        this.setState({ cumgasprices: cumgasprices })
         console.log(bulkdata);
         console.log(accgas);
         console.log(time)
@@ -77,7 +95,7 @@ class App extends React.Component {
     labels: this.state.timestamp,
     datasets: [
       {
-        label: 'Accumulative Users',
+        label: 'Accumulative Users = '+this.state.users[this.state.users.length-1],
         fill: false,
         lineTension: 0.1,
         backgroundColor: 'orange',
@@ -164,6 +182,87 @@ class App extends React.Component {
       // }
     ]
   };
+  const data2 = {
+    labels: this.state.timestamp,
+    datasets: [
+      {
+        label: 'Accumulative Interactions = '+this.state.transarr[this.state.transarr.length-1],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'orange',
+        borderColor: 'orange',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        // data: this.state.btc
+        data: this.state.transarr
+      }
+    ]
+  };
+  const data3 = {
+    labels: this.state.timestamp,
+    datasets: [
+      {
+        label: 'Accumulative Gas Used = '+this.state.accgasarray[this.state.accgasarray.length-1],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'orange',
+        borderColor: 'orange',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        // data: this.state.btc
+        data: this.state.accgasarray
+      }
+    ]
+  };
+  const data4 = {
+    labels: this.state.timestamp,
+    datasets: [
+      {
+        label: 'Accumulative Gas Fees = '+this.state.cumgasprices[this.state.cumgasprices.length-1],
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'orange',
+        borderColor: 'orange',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        // data: this.state.btc
+        data: this.state.cumgasprices
+      }
+    ]
+  };
   const options = {
        
     annotation: {
@@ -183,12 +282,36 @@ class App extends React.Component {
     responsive: true
 };
   return (
-    <Line
-    data = {data}
-    width={10}
-    height={50}
-    
+    <div id="chartHolder">
+      <div id="lineChart"> 
+        <Line
+        data = {data}
+        width={10}
+        height={50}
+        />
+      </div>
+      <div id="lineChart2">
+        <Line
+        data = {data2}
+        width={10}
+        height={50}
       />
+      </div>
+      <div id="lineChart3">
+        <Line
+        data = {data3}
+        width={10}
+        height={50}
+      />
+      </div>
+      <div id="lineChart4">
+        <Line
+        data = {data4}
+        width={10}
+        height={50}
+      />
+      </div>
+    </div>
   );
 }
 }
