@@ -24,34 +24,35 @@
 }
 
 #lineChart{
-  width:40%;
+  width:100%;
   height:1%;
-  position: absolute;
+  position: relative;
   float: left;
 }
 
 #lineChart2{
-  width:40%;
+  width:100%;
   height:1%;
-  position: absolute;
-  float: left;
-  margin-left: 50%;
+  position: relative;
+  
+  /* float: left;
+  margin-left: 50%; */
 }
 
 #lineChart3{
-  width:40%;
+  width:100%;
   height:1%;
-  position: absolute;
-  margin-top: 200%;
+  position: relative;
+ 
 }
 
 #lineChart4{
-  width:40%;
+  width:100%;
   height:1%;
-  position: absolute;
-  margin-top: 200%;
-  float: left;
-  margin-left: 50%;
+  position: relative;
+ 
+  /* float: left;
+  margin-left: 50%; */
 }
 
 @keyframes App-logo-spin {
