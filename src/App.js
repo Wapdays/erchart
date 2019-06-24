@@ -265,21 +265,10 @@ class App extends React.Component {
   };
   const options = {
        
-    annotation: {
-         annotations: [{
-             drawTime: 'afterDatasetsDraw',
-             borderColor: 'red',
-             borderDash: [2, 2],
-             borderWidth: 2,
-             mode: 'horizontal',
-             type: 'line',
-             value: 1,
-             stepSize: 20,
-             scaleID: 'x-axis-0',
-       }]
-    },
-    maintainAspectRation: true,
-    responsive: true
+    
+    maintainAspectRatio: false,
+    responsive: true,
+    
 };
   return (
     <div id="chartHolder">
@@ -288,6 +277,7 @@ class App extends React.Component {
         data = {data}
         width={10}
         height={50}
+        options={options}
         />
       </div>
       <div id="lineChart2">
@@ -295,6 +285,7 @@ class App extends React.Component {
         data = {data2}
         width={10}
         height={50}
+        options={options}
       />
       </div>
       <div id="lineChart3">
@@ -302,6 +293,7 @@ class App extends React.Component {
         data = {data3}
         width={10}
         height={50}
+        options={options}
       />
       </div>
       <div id="lineChart4">
@@ -309,6 +301,7 @@ class App extends React.Component {
         data = {data4}
         width={10}
         height={50}
+        options={options}
       />
       </div>
     </div>
